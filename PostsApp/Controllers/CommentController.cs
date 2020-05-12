@@ -80,7 +80,7 @@ namespace PostsApp.Controllers
 
         [HttpPut]
         //[Route("{id:string}")]
-        public IHttpActionResult Update(string id, [FromBody] CommentModel commentModel)
+        public IHttpActionResult Update([FromBody] CommentModel commentModel)
         {
             if (commentModel == null)
             {
@@ -91,6 +91,48 @@ namespace PostsApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            _comment.Update(commentModel);
+
+            return Ok(commentModel);
+        }
+
+        [HttpGet]
+        [Route("api/comment/UpVote")]
+        public IHttpActionResult UpVote(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CommentModel commentModel = _comment.Get(id);
+            commentModel.UpVote += 1;
+
+            _comment.Update(commentModel);
+
+            return Ok(commentModel);
+        }
+
+        [HttpGet]
+        //[Route("{id:string}")]
+        public IHttpActionResult DownVote(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CommentModel commentModel = _comment.Get(id);
+            commentModel.DownVote += 1;
 
             _comment.Update(commentModel);
 

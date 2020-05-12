@@ -29,7 +29,7 @@ namespace CommentApp.Service
         public List<CommentModel> GetRange(int pageSize, int page)
         {
             List<CommentModel> commentModels = new List<CommentModel>();
-            var result = db.Comments.Skip(pageSize * (page - 1)).Take(pageSize).ToList();
+            var result = db.Comments.OrderBy(s=>s.Id).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             foreach (var item in result)
             {
                 CommentModel commentModel = new CommentModel() { Id = item.Id, Name = item.Name, PostId = item.PostId, UpVote = item.UpVote, DownVote = item.DownVote, MakeBy = item.MakeBy, MakeDate = item.MakeDate };

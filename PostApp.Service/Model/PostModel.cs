@@ -12,5 +12,6 @@ namespace PostApp.Service.Model
         public string Name { get; set; }
         public string MakeBy { get; set; }
         public Nullable<System.DateTime> MakeDate { get; set; }
+        public List<CommentModel> Comments { get; set; }
     }
 }

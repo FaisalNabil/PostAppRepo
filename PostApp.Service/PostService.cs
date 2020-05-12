@@ -1,4 +1,5 @@
-﻿using PostApp.Data;
+﻿using CommentApp.Service;
+using PostApp.Data;
 using PostApp.Service.Model;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace PostApp.Service
     public class PostService
     {
         PostDBEntities db;
+        CommentService commentService;
         public PostService()
         {
             db = new PostDBEntities();
+            commentService = new CommentService();
         }
         public List<PostModel> GetAll()
         {
@@ -29,10 +32,10 @@ namespace PostApp.Service
         public List<PostModel> GetRange(int pageSize, int page)
         {
             List<PostModel> postModels = new List<PostModel>();
-            var result = db.Posts.Skip(pageSize * (page - 1)).Take(pageSize).ToList();
+            var result = db.Posts.OrderBy(s=>s.Id).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             foreach (var item in result)
             {
-                PostModel postModel = new PostModel() { Id = item.Id, Name = item.Name, MakeBy = item.MakeBy, MakeDate = item.MakeDate };
+                PostModel postModel = new PostModel() { Id = item.Id, Name = item.Name, MakeBy = item.MakeBy, MakeDate = item.MakeDate, Comments = commentService.GetByPost(item.Id) };
                 postModels.Add(postModel);
             }
             return postModels;

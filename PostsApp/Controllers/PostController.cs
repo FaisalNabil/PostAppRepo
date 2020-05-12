@@ -26,28 +26,6 @@ namespace PostsApp.Controllers
         [HttpGet]
         [EnableQuery(PageSize = MaxPageSize)]
         //[Route("")]
-        public IHttpActionResult Get(int page = 1, int pageSize = MaxPageSize, string postName = null)
-        {
-            if (pageSize > MaxPageSize)
-            {
-                pageSize = MaxPageSize;
-            }
-
-            var paginationHeader = new
-            {
-                totalCount = _post.GetAll().Count
-            };
-
-            List<PostModel> result = _post.GetRange(pageSize, page);
-
-            HttpContext.Current.Response.AppendHeader("X-Pagination", JsonConvert.SerializeObject(paginationHeader));
-
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [EnableQuery(PageSize = MaxPageSize)]
-        //[Route("")]
         public IHttpActionResult Get(int page = 1, int pageSize = MaxPageSize)
         {
             if (pageSize > MaxPageSize)

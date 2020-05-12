@@ -1,0 +1,50 @@
+﻿@model IEnumerable<PostApp.Service.Model.PostModel>
+
+@{
+    ViewBag.Title = "Posts";
+}
+
+<h2>Posts</h2>
+
+<div>
+    <table class="table">
+
+        @foreach (var item in Model)
+        {
+            <tr class="active">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MakeBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MakeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments.Count) Comments
+                </td>
+            </tr>
+            foreach (var comment in item.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.MakeBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.MakeDate)
+                    </td>
+                    <td>
+                        Up: @Html.DisplayFor(modelItem => comment.UpVote) - Down: @Html.DisplayFor(modelItem => comment.UpVote)
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+
+    <br />
+</div>
